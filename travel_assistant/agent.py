@@ -1,0 +1,3 @@
+from travel_assistant.agents.coordinator import travel_coordinator_agent
+
+root_agent = travel_coordinator_agent
