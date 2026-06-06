@@ -17,35 +17,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Paso 1: Descarga del código fuente utilizando el hash seguro provisto por SonarCloud
       - name: Checkout repository
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
-          fetch-depth: 0 # Desactiva clones superficiales para la trazabilidad de Git en SonarCloud
+          fetch-depth: 0
 
-      # Paso 2: Aprovisionamiento del entorno de ejecución de Python
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      # Paso 3: Instalación del gestor de dependencias moderno
       - name: Install Poetry
         run: pip install poetry
 
-      # Paso 4: Descarga del manifiesto de librerías del proyecto
       - name: Install dependencies
         run: poetry install
 
-      # Paso 5: Ejecución del análisis estático de estilo y sintaxis
       - name: Run Ruff
         run: poetry run ruff check .
 
-      # Paso 6: Ejecución de las pruebas unitarias y generación de la matriz de cobertura
+      # AQUÍ ESTÁ EL CAMBIO (Las líneas env y GOOGLE_API_KEY)
       - name: Run Pytest
+        env:
+          GOOGLE_API_KEY: "clave_falsa"
         run: poetry run pytest --cov=travel_assistant --cov-report=xml
 
-      # Paso 7: Escaneo integral de calidad y vulnerabilidades con el hash exacto de SonarCloud
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@7006c4492b2e0ee0f816d36501671557c97f5995 # v8.1.0
         env:
