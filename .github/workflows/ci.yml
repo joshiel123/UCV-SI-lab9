@@ -36,7 +36,6 @@ jobs:
       - name: Run Ruff
         run: poetry run ruff check .
 
-      # AQUÍ ESTÁ EL CAMBIO (Las líneas env y GOOGLE_API_KEY)
       - name: Run Pytest
         env:
           GOOGLE_API_KEY: "clave_falsa"
